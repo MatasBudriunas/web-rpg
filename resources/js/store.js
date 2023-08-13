@@ -22,11 +22,7 @@ const actions = {
         const token = localStorage.getItem('auth-token');
 
         try {
-            const response = await axios.get('/api/player', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const response = await axios.get('/api/player');
             commit('SET_PLAYER', response.data);
         } catch (error) {
             console.error("An error occurred while fetching player information:", error);
