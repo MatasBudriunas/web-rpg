@@ -18,6 +18,7 @@ import PlayerInfo from './Player/PlayerInfo.vue';
 import PlayerCurrency from "./Player/PlayerCurrency.vue";
 import CraftingModal from './CraftingModal.vue';
 import {mapState} from 'vuex';
+import axios from 'axios';
 
 export default {
     components: {
@@ -48,8 +49,18 @@ export default {
     },
 
     methods: {
-        openCraftModal() {
-            this.showCraftModal = true;
+        async openCraftModal() {
+            try {
+                const response = await axios.get('/craft-item');
+                this.newItem = response.data;
+                this.oldItem = this.getCurrentItemOfType(this.newItem.type);
+                this.showCraftModal = true;
+            } catch (error) {
+                console.error('An error occurred while crafting:', error);
+            }
+        },
+        getCurrentItemOfType(type) {
+            return this.$store.state.items[type];
         },
         closeCraftModal() {
             this.showCraftModal = false;

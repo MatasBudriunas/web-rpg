@@ -20,4 +20,6 @@ Route::post('/login', 'App\Http\Controllers\AuthController@login');
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
     Route::get('/player', 'App\Http\Controllers\API\PlayerController@getPlayer');
+    Route::get('/items', 'App\Http\Controllers\API\PlayerController@getPlayerItems');
+    Route::get('/craft-item', 'App\Http\Controllers\API\CraftingController@craft');
 });

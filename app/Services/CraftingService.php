@@ -6,14 +6,42 @@ namespace App\Services;
 
 use App\Constants\ItemTypeConstants;
 use App\Constants\RarityConstants;
+use App\Models\Item;
+use App\Providers\ItemFactoryProvider;
+use App\Repositories\UserRepository;
+use Exception;
 
 class CraftingService
 {
-    public function craftItem(){
+    private UserRepository $userRepository;
+
+    public function __construct(UserRepository $userRepository){
+        $this->userRepository = $userRepository;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function craftItem(int $userId): Item
+    {
+        $user = $this->userRepository->find($userId);
+
+        if(!$user) {
+            throw new Exception('No user provided');
+        }
+
         $itemRarity = $this->getRandomRarity();
         $itemType = $this->getRandomItemType();
+        $factory = ItemFactoryProvider::getFactory($itemType);
 
-        //TODO item crafting and replacement/equipment logic
+        $attributes = [
+            'type' => $itemType,
+            'rarity' => $itemRarity,
+            'user_id' => $userId,
+            'level' => $user->level
+        ];
+
+        return $factory->create($attributes);
     }
 
     private function getRandomRarity(): float {

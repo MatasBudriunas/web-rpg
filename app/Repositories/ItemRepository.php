@@ -36,4 +36,16 @@ class ItemRepository implements RepositoryInterface
     {
         Item::destroy($id);
     }
+
+    public function findGroupedItemsByUser($userId): array
+    {
+        $items = Item::where('user_id', $userId)->get();
+
+        $groupedItems = [];
+        foreach ($items as $item) {
+            $groupedItems[$item->item_type][] = $item;
+        }
+
+        return $groupedItems;
+    }
 }

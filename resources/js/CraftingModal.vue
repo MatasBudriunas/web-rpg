@@ -6,10 +6,12 @@
                 <button class="close-button" @click="$emit('close')">Close</button>
                 <div v-if="oldItem">
                     <h3>Current Item</h3>
-                    <!-- old item details -->
+                    <p>Type: {{ oldItem.type }}</p>
+                    <p>Attack: {{ oldItem.attack }}</p>
                 </div>
                 <h3>Newly Crafted Item</h3>
-                <!-- new item details -->
+                <p>Type: {{ newItem.type }}</p>
+                <p>Attack: {{ newItem.attack }}</p>
                 <button v-if="!oldItem" @click="equipItem">Equip</button>
                 <button v-if="oldItem" @click="replaceItem">Replace</button>
             </div>
@@ -21,11 +23,21 @@
 export default {
     props: ['showModal', 'oldItem', 'newItem'],
     methods: {
-        equipItem() {
-
+        async equipItem() {
+            try {
+                await this.$store.dispatch('equipItem', this.newItem);
+                this.$emit('close');
+            } catch (error) {
+                console.error('An error occurred while equipping the item:', error);
+            }
         },
-        replaceItem() {
-
+        async replaceItem() {
+            try {
+                await this.$store.dispatch('replaceItem', { oldItem: this.oldItem, newItem: this.newItem });
+                this.$emit('close');
+            } catch (error) {
+                console.error('An error occurred while replacing the item:', error);
+            }
         },
     },
 };

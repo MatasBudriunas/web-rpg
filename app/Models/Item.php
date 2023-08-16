@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @method static find($id)
  * @method static create(array $data)
+ * @method static where(string $string, $userId)
  */
 class Item extends Model
 {

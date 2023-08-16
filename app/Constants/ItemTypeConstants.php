@@ -13,10 +13,10 @@ final class ItemTypeConstants
     public const GLOVES = 'gloves';
 
     public const ITEM_TYPES = [
-        self::ARMOR,
+//        self::ARMOR,
         self::WEAPON,
-        self::HELMET,
-        self::BOOTS,
-        self::GLOVES,
+//        self::HELMET,
+//        self::BOOTS,
+//        self::GLOVES,
     ];
 }
