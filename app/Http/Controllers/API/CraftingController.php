@@ -15,6 +15,6 @@ class CraftingController
         $this->craftingService = $craftingService;
     }
     public function craft(Request $request) {
-
+        //TODO implement crafting logic
     }
 }

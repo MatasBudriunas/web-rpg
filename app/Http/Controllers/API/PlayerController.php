@@ -32,20 +32,8 @@ class PlayerController extends Controller
 
     public function getPlayerItems(Request $request): JsonResponse
     {
-        $user = $request->user();
+        //TODO implement retrieving of player items.
 
-        $player = [
-            'username' => $user->username,
-            'attack' => $user->attack,
-            'defence' => $user->defence,
-            'health' => $user->health,
-            'speed' => $user->speed,
-            'current_xp' => $user->current_xp,
-            'needed_xp' => $user->needed_xp,
-            'level' => $user->level,
-            'currency' => $user->currency,
-        ];
-
-        return response()->json($player, Response::HTTP_OK);
+        return response()->json(Response::HTTP_OK);
     }
 }

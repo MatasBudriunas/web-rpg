@@ -39,7 +39,7 @@ const actions = {
         }
     },
 
-    async fetchItems({ commit }) { // new action
+    async fetchItems({ commit }) {
         try {
             const response = await axios.get('/api/items');
             commit('SET_ITEMS', response.data);

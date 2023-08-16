@@ -1,7 +1,7 @@
 <template>
     <div v-if="showModal">
-        <div class="crafting-modal-bg" :class="{ 'show-bg': showModal }"></div> <!-- Added background div -->
-        <div class="crafting-modal"> <!-- Updated class name -->
+        <div class="crafting-modal-bg" :class="{ 'show-bg': showModal }"></div>
+        <div class="crafting-modal">
             <div class="modal-content">
                 <button class="close-button" @click="$emit('close')">Close</button>
                 <div v-if="oldItem">
