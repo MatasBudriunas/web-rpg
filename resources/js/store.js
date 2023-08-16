@@ -9,11 +9,21 @@ const state = {
         health: 0,
         speed: 0,
     },
+    items: {
+        gloves: null,
+        helmet: null,
+        boots: null,
+        armor: null,
+        weapon: null,
+    },
 };
 
 const mutations = {
     SET_PLAYER(state, player) {
         state.player = player;
+    },
+    SET_ITEMS(state, items) {
+        state.items = items;
     },
 };
 
@@ -26,6 +36,15 @@ const actions = {
             commit('SET_PLAYER', response.data);
         } catch (error) {
             console.error("An error occurred while fetching player information:", error);
+        }
+    },
+
+    async fetchItems({ commit }) { // new action
+        try {
+            const response = await axios.get('/api/items');
+            commit('SET_ITEMS', response.data);
+        } catch (error) {
+            console.error("An error occurred while fetching items:", error);
         }
     },
 };
