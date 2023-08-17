@@ -4,42 +4,32 @@ declare(strict_types=1);
 
 namespace App\Factories;
 
-use App\Constants\RarityConstants;
-use App\Models\Item;
-use App\Models\Weapon;
+use App\Constants\WeaponConstants;
 
-class WeaponFactory implements ItemFactory
+class WeaponFactory extends AbstractItemFactory implements ItemFactory
 {
-    public function create(array $attributes): Item
+    protected function getItemName(): string
     {
-        $multiplier = RarityConstants::getMultiplier($attributes['rarity']);
-        $level = $attributes['level'];
-
-        $attributes['attack'] = $this->calculateAttack($multiplier, $level);
-        $attributes['defence'] = $this->calculateDefence($multiplier, $level);
-        $attributes['health'] = $this->calculateHealth($multiplier, $level);
-        $attributes['speed'] = $this->calculateSpeed($multiplier, $level);
-
-        return Weapon::create($attributes);
+        return WeaponConstants::getRandomWeaponName();
     }
 
-    private function calculateAttack(float $multiplier, int $level): float
+    protected function getAttackMultiplier(): float
     {
-        return round((rand(10, 50) + ($level * 2)) * $multiplier);
+        return 2;
     }
 
-    private function calculateDefence(float $multiplier, int $level): float
+    protected function getDefenceMultiplier(): float
     {
-        return round((rand(1, 5) + ($level)) * $multiplier);
+        return 1;
     }
 
-    private function calculateHealth(float $multiplier, int $level): float
+    protected function getHealthMultiplier(): float
     {
-        return round((rand(1, 5) + ($level)) * $multiplier);
+        return 1;
     }
 
-    private function calculateSpeed(float $multiplier, int $level): float
+    protected function getSpeedMultiplier(): float
     {
-        return round((rand(5, 25) + ($level * 1.5)) * $multiplier);
+        return 1.5;
     }
 }

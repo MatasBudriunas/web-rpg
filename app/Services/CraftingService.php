@@ -7,6 +7,8 @@ namespace App\Services;
 use App\Constants\ItemTypeConstants;
 use App\Constants\RarityConstants;
 use App\Models\Item;
+use App\Models\ItemLog;
+use App\Models\User;
 use App\Providers\ItemFactoryProvider;
 use App\Repositories\UserRepository;
 use Exception;
@@ -15,7 +17,8 @@ class CraftingService
 {
     private UserRepository $userRepository;
 
-    public function __construct(UserRepository $userRepository){
+    public function __construct(UserRepository $userRepository)
+    {
         $this->userRepository = $userRepository;
     }
 
@@ -26,7 +29,7 @@ class CraftingService
     {
         $user = $this->userRepository->find($userId);
 
-        if(!$user) {
+        if (!$user) {
             throw new Exception('No user provided');
         }
 
@@ -34,17 +37,30 @@ class CraftingService
         $itemType = $this->getRandomItemType();
         $factory = ItemFactoryProvider::getFactory($itemType);
 
-        $attributes = [
-            'type' => $itemType,
-            'rarity' => $itemRarity,
-            'user_id' => $userId,
-            'level' => $user->level
-        ];
+        $attributes = $this->getAttributesData($itemType, $itemRarity, $userId, $user);
 
-        return $factory->create($attributes);
+        $item = $factory->create($attributes);
+
+        //TODO implement currency system and amounts
+        $item->log_id = $this->logCraftedItem($item, $userId, 'gold', 1);
+
+        return $item;
     }
 
-    private function getRandomRarity(): float {
+    public function logCraftedItem(Item $item, int $userId, string $currencyType, int $currencyAmount): int
+    {
+        $craftLog = new ItemLog(array_merge($item->toArray(), [
+            'user_id' => $userId,
+            'currency_type' => $currencyType,
+            'currency_amount' => $currencyAmount,
+        ]));
+        $craftLog->save();
+
+        return $craftLog->id;
+    }
+
+    private function getRandomRarity(): float
+    {
         $randomNumber = rand(0, 100);
         $threshold = 0;
 
@@ -58,9 +74,20 @@ class CraftingService
         return RarityConstants::COMMON;
     }
 
-    private function getRandomItemType(): string {
+    private function getRandomItemType(): string
+    {
         $randomIndex = array_rand(ItemTypeConstants::ITEM_TYPES);
 
         return ItemTypeConstants::ITEM_TYPES[$randomIndex];
+    }
+
+    private function getAttributesData(string $itemType, float $itemRarity, int $userId, User $user): array
+    {
+        return [
+            'type' => $itemType,
+            'rarity' => $itemRarity,
+            'user_id' => $userId,
+            'level' => $user->level,
+        ];
     }
 }

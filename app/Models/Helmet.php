@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Helmet extends Model
 {
+    protected $table = 'items';
     protected $fillable = [
         'user_id',
         'type',

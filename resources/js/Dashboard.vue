@@ -43,6 +43,7 @@ export default {
     async mounted() {
         try {
             await this.$store.dispatch('fetchPlayer');
+            await this.$store.dispatch('fetchItems');
         } catch (error) {
             console.error("An error occurred while fetching player information:", error);
         }
@@ -51,7 +52,7 @@ export default {
     methods: {
         async openCraftModal() {
             try {
-                const response = await axios.get('/craft-item');
+                const response = await axios.get('/api/craft-item');
                 this.newItem = response.data;
                 this.oldItem = this.getCurrentItemOfType(this.newItem.type);
                 this.showCraftModal = true;

@@ -4,17 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-class Armor
+class Armor extends Item
 {
-    protected $fillable = [
-        'user_id',
-        'type',
-        'name',
-        'rarity',
-        'level',
-        'attack',
-        'defence',
-        'health',
-        'speed',
-    ];
 }

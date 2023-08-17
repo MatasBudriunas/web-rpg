@@ -6,14 +6,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @method static find($id)
  * @method static create(array $data)
- * @method static where(string $string, $userId)
+ * @property int|mixed $log_id
  */
 class Item extends Model
 {
+    protected $table = 'items';
     protected $fillable = [
         'user_id',
         'type',
@@ -24,9 +26,15 @@ class Item extends Model
         'defence',
         'health',
         'speed',
+        'log_id',
     ];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function log(): HasOne
+    {
+        return $this->hasOne(ItemLog::class, 'log_id', 'id');
     }
 }

@@ -11,9 +11,13 @@
                 </div>
                 <h3>Newly Crafted Item</h3>
                 <p>Type: {{ newItem.type }}</p>
+                <p>Name: {{ newItem.name }}</p>
                 <p>Attack: {{ newItem.attack }}</p>
+                <p>Defence: {{ newItem.defence }}</p>
+                <p>Health: {{ newItem.health }}</p>
+                <p>Speed: {{ newItem.speed }}</p>
                 <button v-if="!oldItem" @click="equipItem">Equip</button>
-                <button v-if="oldItem" @click="replaceItem">Replace</button>
+                <button v-if="oldItem" @click="equipItem">Replace</button>
             </div>
         </div>
     </div>
@@ -25,18 +29,10 @@ export default {
     methods: {
         async equipItem() {
             try {
-                await this.$store.dispatch('equipItem', this.newItem);
+                await this.$store.dispatch('equipItem', this.newItem.log_id);
                 this.$emit('close');
             } catch (error) {
                 console.error('An error occurred while equipping the item:', error);
-            }
-        },
-        async replaceItem() {
-            try {
-                await this.$store.dispatch('replaceItem', { oldItem: this.oldItem, newItem: this.newItem });
-                this.$emit('close');
-            } catch (error) {
-                console.error('An error occurred while replacing the item:', error);
             }
         },
     },

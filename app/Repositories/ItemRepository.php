@@ -43,9 +43,14 @@ class ItemRepository implements RepositoryInterface
 
         $groupedItems = [];
         foreach ($items as $item) {
-            $groupedItems[$item->item_type][] = $item;
+            $groupedItems[$item->type] = $item;
         }
 
         return $groupedItems;
+    }
+
+    public function findOneByMany(array $data)
+    {
+        return Item::where($data)->first();
     }
 }

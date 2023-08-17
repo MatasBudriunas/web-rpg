@@ -16,6 +16,7 @@ const state = {
         armor: null,
         weapon: null,
     },
+    equipMessage: '',
 };
 
 const mutations = {
@@ -24,6 +25,10 @@ const mutations = {
     },
     SET_ITEMS(state, items) {
         state.items = items;
+    },
+    EQUIP_ITEM(state, { item, slot }) {
+        state.items[slot] = item;
+        state.equipMessage = 'Item successfully equipped!';
     },
 };
 
@@ -45,6 +50,23 @@ const actions = {
             commit('SET_ITEMS', response.data);
         } catch (error) {
             console.error("An error occurred while fetching items:", error);
+        }
+    },
+    async equipItem({ commit }, itemLogId) {
+        try {
+            const response = await axios.post('/api/equip-item', { itemId: itemLogId });
+
+            if (response.data) {
+                const item = response.data;
+                const slot = item.type;
+
+                commit('EQUIP_ITEM', { item, slot });
+            } else {
+                throw new Error('An error occurred while equipping the item');
+            }
+        } catch (error) {
+            console.error(error);
+            state.equipMessage = error.message;
         }
     },
 };

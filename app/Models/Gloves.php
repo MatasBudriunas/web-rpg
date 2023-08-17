@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-class Gloves
+use Illuminate\Database\Eloquent\Model;
+
+class Gloves extends Model
 {
+    protected $table = 'items';
     protected $fillable = [
         'user_id',
         'type',
