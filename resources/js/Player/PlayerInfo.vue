@@ -3,10 +3,10 @@
         <div class="player-info card">
             <div class="card-body">
                 <h1 class="card-title">{{ player.username }}</h1>
-                <p class="card-text">Attack: {{ player.attack }}</p>
-                <p class="card-text">Defence: {{ player.defence }}</p>
-                <p class="card-text">Health: {{ player.health }}</p>
-                <p class="card-text">Speed: {{ player.speed }}</p>
+                <p class="card-text">Attack: {{ combinedPlayerStats.attack }}</p>
+                <p class="card-text">Defence: {{ combinedPlayerStats.defence }}</p>
+                <p class="card-text">Health: {{ combinedPlayerStats.health }}</p>
+                <p class="card-text">Speed: {{ combinedPlayerStats.speed }}</p>
                 <div class="progress position-relative">
                     <div :class="progressBarClass" role="progressbar" :style="{ width: progressPercentage + '%' }"
                          :aria-valuenow="progressPercentage" aria-valuemin="0" aria-valuemax="100"></div>
@@ -24,10 +24,12 @@
 
 <script>
 import {mapState} from 'vuex';
+import {mapGetters} from 'vuex';
 
 export default {
     computed: {
         ...mapState(['player']),
+        ...mapGetters(['combinedPlayerStats']),
         progressPercentage() {
             return (this.player.current_xp / this.player.needed_xp) * 100;
         },
@@ -46,11 +48,12 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50vh;
+    height: auto;
 }
 
 .player-info.card {
-    width: 40%;
+    max-width: 300px;
+    height: auto;
     margin-top: 20px;
     text-align: center;
     border: 1px solid #ced4da;

@@ -33,7 +33,7 @@ class CraftingService
             throw new Exception('No user provided');
         }
 
-        $itemRarity = $this->getRandomRarity();
+        $itemRarity = RarityConstants::getRandomRarity();
         $itemType = $this->getRandomItemType();
         $factory = ItemFactoryProvider::getFactory($itemType);
 
@@ -59,21 +59,6 @@ class CraftingService
         return $craftLog->id;
     }
 
-    private function getRandomRarity(): float
-    {
-        $randomNumber = rand(0, 100);
-        $threshold = 0;
-
-        foreach (RarityConstants::RARITIES as $rarity => $chance) {
-            $threshold += $chance;
-            if ($randomNumber < $threshold) {
-                return $rarity;
-            }
-        }
-
-        return RarityConstants::COMMON;
-    }
-
     private function getRandomItemType(): string
     {
         $randomIndex = array_rand(ItemTypeConstants::ITEM_TYPES);
@@ -81,7 +66,7 @@ class CraftingService
         return ItemTypeConstants::ITEM_TYPES[$randomIndex];
     }
 
-    private function getAttributesData(string $itemType, float $itemRarity, int $userId, User $user): array
+    private function getAttributesData(string $itemType, int $itemRarity, int $userId, User $user): array
     {
         return [
             'type' => $itemType,

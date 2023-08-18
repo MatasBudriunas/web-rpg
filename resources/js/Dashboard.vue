@@ -1,8 +1,11 @@
 <template>
     <dashboard-navbar></dashboard-navbar>
     <div class="player-info-container">
-        <player-info></player-info>
         <player-currency></player-currency>
+        <div class="info-and-items">
+            <player-info></player-info>
+            <equipped-items :items="items" />
+        </div>
         <button class="craft-button" @click="openCraftModal">Craft Item</button>
     </div>
     <crafting-modal
@@ -19,6 +22,7 @@ import PlayerCurrency from "./Player/PlayerCurrency.vue";
 import CraftingModal from './CraftingModal.vue';
 import {mapState} from 'vuex';
 import axios from 'axios';
+import EquippedItems from './Items/EquippedItems.vue';
 
 export default {
     components: {
@@ -26,6 +30,7 @@ export default {
         PlayerInfo,
         DashboardNavbar,
         CraftingModal,
+        EquippedItems,
     },
 
     data() {
@@ -38,6 +43,7 @@ export default {
 
     computed: {
         ...mapState(['player']),
+        ...mapState(['items']),
     },
 
     async mounted() {
@@ -73,7 +79,35 @@ export default {
 <style>
 .player-info-container {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     padding-top: 10px;
+}
+
+.info-and-items {
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+.player-currency {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.equipped-items {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+    margin-left: 10px;
+}
+
+.player-info {
+
 }
 
 .craft-button {

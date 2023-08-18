@@ -1,23 +1,33 @@
 <template>
-    <div v-if="showModal">
+    <div v-if="showModal" @click="closeModal">
         <div class="crafting-modal-bg" :class="{ 'show-bg': showModal }"></div>
-        <div class="crafting-modal">
+        <div class="crafting-modal" @click.stop>
             <div class="modal-content">
-                <button class="close-button" @click="$emit('close')">Close</button>
-                <div v-if="oldItem">
-                    <h3>Current Item</h3>
-                    <p>Type: {{ oldItem.type }}</p>
-                    <p>Attack: {{ oldItem.attack }}</p>
+                <div class="item-comparison">
+                    <div v-if="oldItem" class="item-details">
+                        <h3>Current Item</h3>
+                        <p>Type: {{ oldItem.type }}</p>
+                        <p>Name: {{ oldItem.name }}</p>
+                        <p>Attack: {{ oldItem.attack }}</p>
+                        <p>Defence: {{ oldItem.defence }}</p>
+                        <p>Health: {{ oldItem.health }}</p>
+                        <p>Speed: {{ oldItem.speed }}</p>
+                    </div>
+                    <div class="item-details">
+                        <h3>Newly Crafted Item</h3>
+                        <p>Type: {{ newItem.type }}</p>
+                        <p>Name: {{ newItem.name }}</p>
+                        <p>Attack: {{ newItem.attack }}</p>
+                        <p>Defence: {{ newItem.defence }}</p>
+                        <p>Health: {{ newItem.health }}</p>
+                        <p>Speed: {{ newItem.speed }}</p>
+                    </div>
                 </div>
-                <h3>Newly Crafted Item</h3>
-                <p>Type: {{ newItem.type }}</p>
-                <p>Name: {{ newItem.name }}</p>
-                <p>Attack: {{ newItem.attack }}</p>
-                <p>Defence: {{ newItem.defence }}</p>
-                <p>Health: {{ newItem.health }}</p>
-                <p>Speed: {{ newItem.speed }}</p>
-                <button v-if="!oldItem" @click="equipItem">Equip</button>
-                <button v-if="oldItem" @click="equipItem">Replace</button>
+                <div class="modal-footer">
+                    <button v-if="!oldItem" @click="equipItem" class="btn btn-primary">Equip</button>
+                    <button v-if="oldItem" @click="equipItem" class="btn btn-primary">Replace</button>
+                    <button class="close-button btn btn-primary" @click="$emit('close')">Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -35,11 +45,35 @@ export default {
                 console.error('An error occurred while equipping the item:', error);
             }
         },
+        closeModal(event) {
+            if (event.target.classList.contains('crafting-modal-bg')) {
+                this.$emit('close');
+            }
+        }
     },
 };
 </script>
 
 <style scoped>
+.item-comparison {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.item-details {
+    flex: 1;
+    padding: 0 10px;
+}
+
+.modal-footer {
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
 .crafting-modal {
     position: fixed;
     top: 30%;
@@ -48,7 +82,8 @@ export default {
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
-    width: 600px;
+    max-width: 650px;
+    width: 90%;
     z-index: 100;
     transition: all 0.3s;
 }
@@ -73,4 +108,20 @@ export default {
     float: right;
     cursor: pointer;
 }
+
+@media (min-width: 768px) {
+    .item-details {
+        flex: 0 0 45%;
+    }
+}
+
+@media (max-width: 768px) {
+    .item-details {
+        flex: 0 0 48%;
+    }
+    .modal-content {
+        font-size: 0.9rem;
+    }
+}
+
 </style>

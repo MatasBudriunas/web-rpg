@@ -18,6 +18,8 @@ abstract class AbstractItemFactory
     public function create(array $attributes): Item
     {
         $rarityMultiplier = RarityConstants::getMultiplier($attributes['rarity']);
+        $rarityQuality = RarityConstants::getQuality($attributes['rarity']);
+        $rarityName = RarityConstants::getRarityName($attributes['rarity']);
         $level = $attributes['level'];
 
         $itemName = $this->getItemName();
@@ -25,7 +27,8 @@ abstract class AbstractItemFactory
         $attributes['defence'] = $this->calculate($this->getDefenceMultiplier(), $rarityMultiplier, $level);
         $attributes['health'] = $this->calculate($this->getHealthMultiplier(), $rarityMultiplier, $level);
         $attributes['speed'] = $this->calculate($this->getSpeedMultiplier(), $rarityMultiplier, $level);
-        $attributes['name'] = RarityConstants::getRarityName($attributes['rarity']) . ' ' . ucfirst($itemName);
+        $attributes['name'] = $rarityName . ' ' . ucfirst($itemName);
+        $attributes['rarity'] = $rarityQuality;
 
         return new Item($attributes);
     }

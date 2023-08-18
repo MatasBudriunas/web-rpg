@@ -15,17 +15,17 @@ class WeaponFactory extends AbstractItemFactory implements ItemFactory
 
     protected function getAttackMultiplier(): float
     {
-        return 2;
+        return 4;
     }
 
     protected function getDefenceMultiplier(): float
     {
-        return 1;
+        return 0.5;
     }
 
     protected function getHealthMultiplier(): float
     {
-        return 1;
+        return 0.5;
     }
 
     protected function getSpeedMultiplier(): float
