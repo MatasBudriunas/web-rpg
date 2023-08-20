@@ -13,7 +13,7 @@ use InvalidArgumentException;
 
 class ItemFactoryProvider
 {
-    public static function getFactory(string $itemType)
+    public static function getFactory(string $itemType): WeaponFactory|ArmorFactory|GloveFactory|HelmetFactory|BootFactory
     {
         switch ($itemType) {
             case 'weapon':

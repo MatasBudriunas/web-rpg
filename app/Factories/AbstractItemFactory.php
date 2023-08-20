@@ -10,9 +10,13 @@ use App\Models\Item;
 abstract class AbstractItemFactory
 {
     abstract protected function getItemName(): string;
+
     abstract protected function getAttackMultiplier(): float;
+
     abstract protected function getDefenceMultiplier(): float;
+
     abstract protected function getHealthMultiplier(): float;
+
     abstract protected function getSpeedMultiplier(): float;
 
     public function create(array $attributes): Item

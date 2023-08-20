@@ -119,6 +119,7 @@ export default {
     .item-details {
         flex: 0 0 48%;
     }
+
     .modal-content {
         font-size: 0.9rem;
     }

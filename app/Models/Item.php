@@ -28,6 +28,7 @@ class Item extends Model
         'speed',
         'log_id',
     ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

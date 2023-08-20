@@ -1,11 +1,11 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import {createRouter, createWebHistory} from 'vue-router';
 import AuthForm from './AuthForm.vue';
 import Dashboard from './Dashboard.vue';
 
 const routes = [
-    { path: '/', redirect: '/dashboard' },
-    { path: '/auth', component: AuthForm },
-    { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
+    {path: '/', redirect: '/dashboard'},
+    {path: '/auth', component: AuthForm},
+    {path: '/dashboard', component: Dashboard, meta: {requiresAuth: true}},
 ];
 
 const router = createRouter({

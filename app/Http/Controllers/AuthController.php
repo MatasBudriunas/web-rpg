@@ -15,7 +15,8 @@ class AuthController extends Controller
 {
     private UserFactory $userFactory;
 
-    public function __construct(UserFactory $userFactory){
+    public function __construct(UserFactory $userFactory)
+    {
         $this->userFactory = $userFactory;
     }
 

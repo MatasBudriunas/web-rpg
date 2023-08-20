@@ -29,7 +29,8 @@
 
 <script>
 import axios from 'axios';
-import { clearAuthToken } from './axios-config';
+import {clearAuthToken} from './axios-config';
+
 export default {
     methods: {
         async logout() {

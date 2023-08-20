@@ -19,9 +19,10 @@ class PlayerController extends Controller
     private EquipmentService $equipmentService;
 
     public function __construct(
-        ItemRepository $itemRepository,
+        ItemRepository   $itemRepository,
         EquipmentService $equipmentService
-    ) {
+    )
+    {
         $this->itemRepository = $itemRepository;
         $this->equipmentService = $equipmentService;
     }

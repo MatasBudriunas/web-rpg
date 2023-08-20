@@ -1,4 +1,4 @@
-import { createStore } from 'vuex';
+import {createStore} from 'vuex';
 import axios from 'axios';
 
 const state = {
@@ -26,7 +26,7 @@ const mutations = {
     SET_ITEMS(state, items) {
         state.items = items;
     },
-    EQUIP_ITEM(state, { item, slot }) {
+    EQUIP_ITEM(state, {item, slot}) {
         state.items[slot] = item;
         state.equipMessage = 'Item successfully equipped!';
     },
@@ -36,7 +36,7 @@ const mutations = {
 };
 
 const actions = {
-    async fetchPlayer({ commit }) {
+    async fetchPlayer({commit}) {
         const token = localStorage.getItem('auth-token');
 
         try {
@@ -47,7 +47,7 @@ const actions = {
         }
     },
 
-    async fetchItems({ commit }) {
+    async fetchItems({commit}) {
         try {
             const response = await axios.get('/api/items');
             const itemsData = response.data.data;
@@ -65,15 +65,15 @@ const actions = {
             console.error("An error occurred while fetching items:", error);
         }
     },
-    async equipItem({ commit }, itemLogId) {
+    async equipItem({commit}, itemLogId) {
         try {
-            const response = await axios.post('/api/equip-item', { itemId: itemLogId });
+            const response = await axios.post('/api/equip-item', {itemId: itemLogId});
 
             if (response.data) {
                 const item = response.data;
                 const slot = item.type;
 
-                commit('EQUIP_ITEM', { item, slot });
+                commit('EQUIP_ITEM', {item, slot});
                 commit('ITEM_EQUIPPED');
             } else {
                 throw new Error('An error occurred while equipping the item');

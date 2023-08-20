@@ -1,6 +1,7 @@
 <template>
     <div :key="forceRerender" class="items-container">
-        <div v-for="(item, index) in allItems" :key="item.id" class="item-wrapper" @click="openEquipmentModal(item, index)">
+        <div v-for="(item, index) in allItems" :key="item.id" class="item-wrapper"
+             @click="openEquipmentModal(item, index)">
             <div :key="index" class="item-box" :class="itemQualityClasses[index]">
                 <div v-if="item.type" class="item-type">{{ item.type }}</div>
                 <div v-else class="coming-soon">Coming soon...</div>
@@ -17,8 +18,7 @@
 
 <script>
 import EquipmentModal from './EquipmentModal.vue';
-import { mapState } from 'vuex';
-
+import {mapState} from 'vuex';
 
 export default {
     components: {
@@ -42,13 +42,13 @@ export default {
         ...mapState(['items']),
         allItems() {
             const equippedItems = [
-                { id: 1, type: 'Weapon', details: this.items.weapon },
-                { id: 2, type: 'Armor', details: this.items.armor },
-                { id: 3, type: 'Helmet', details: this.items.helmet },
-                { id: 4, type: 'Gloves', details: this.items.gloves },
-                { id: 5, type: 'Boots', details: this.items.boots },
+                {id: 1, type: 'Weapon', details: this.items.weapon},
+                {id: 2, type: 'Armor', details: this.items.armor},
+                {id: 3, type: 'Helmet', details: this.items.helmet},
+                {id: 4, type: 'Gloves', details: this.items.gloves},
+                {id: 5, type: 'Boots', details: this.items.boots},
             ];
-            const comingSoon = Array(3).fill({ id: null });
+            const comingSoon = Array(3).fill({id: null});
             return [...equippedItems, ...comingSoon];
         },
         itemQualityClasses() {
@@ -89,9 +89,8 @@ export default {
     grid-template-rows: repeat(4, minmax(70px, auto));
     column-gap: 30px;
     width: fit-content;
-    margin-left: 20px;
-    margin-right: auto;
-    align-items: flex-end;
+    margin: 0 auto;
+    padding-top: 20px;
 }
 
 .item-box {
@@ -111,7 +110,7 @@ export default {
 }
 
 .item-type {
-    /* Style for item type */
+    /*TODO Style for item type */
 }
 
 .item-wrapper {
@@ -120,9 +119,7 @@ export default {
     height: 60px;
 }
 
-.quality-common {
-    /* No specific styles for common items */
-}
+/*Dynamic styles for equipped item quality*/
 
 .quality-uncommon {
     box-shadow: 0 0 10px 1px rgba(0, 128, 0, 0.5);
@@ -138,9 +135,15 @@ export default {
 }
 
 @keyframes goldHue {
-    0%   { box-shadow: 0 0 10px 1px rgba(255, 215, 0, 0.5); }
-    50%  { box-shadow: 0 0 15px 2px rgba(255, 215, 0, 0.7); }
-    100% { box-shadow: 0 0 10px 1px rgba(255, 215, 0, 0.5); }
+    0% {
+        box-shadow: 0 0 10px 1px rgba(255, 215, 0, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 15px 2px rgba(255, 215, 0, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 10px 1px rgba(255, 215, 0, 0.5);
+    }
 }
 
 </style>

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace App\Http\Controllers\API;
+
 use App\Http\Resources\ItemResource;
 use App\Services\CraftingService;
 use Exception;
@@ -13,7 +14,8 @@ class CraftingController
 
     private CraftingService $craftingService;
 
-    public function __construct(CraftingService $craftingService) {
+    public function __construct(CraftingService $craftingService)
+    {
         $this->craftingService = $craftingService;
     }
 

@@ -1,13 +1,23 @@
 <template>
     <dashboard-navbar></dashboard-navbar>
-    <div class="player-info-container">
-        <player-currency></player-currency>
-        <div class="info-and-items">
-            <player-info></player-info>
-            <equipped-items :items="items" />
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12 player-info-container">
+                <player-info></player-info>
+                <equipped-items :items="items"/>
+            </div>
+            <div class="col-xl-9 col-lg-9 col-md-6 col-sm-12 main-screen-container">
+                <main-screen></main-screen>
+            </div>
+            <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 right-section-container">
+                <player-currency></player-currency>
+                <div class="right-section">
+                    <actions-menu @openCrafting="openCraftModal"></actions-menu>
+                </div>
+            </div>
         </div>
-        <button class="craft-button" @click="openCraftModal">Craft Item</button>
     </div>
+    <chat-box></chat-box>
     <crafting-modal
         :showModal="showCraftModal"
         :oldItem="oldItem"
@@ -23,6 +33,9 @@ import CraftingModal from './CraftingModal.vue';
 import {mapState} from 'vuex';
 import axios from 'axios';
 import EquippedItems from './Items/EquippedItems.vue';
+import ActionsMenu from './Actions/ActionsMenu.vue';
+import MainScreen from './MainScreen.vue';
+import ChatBox from './ChatBox.vue';
 
 export default {
     components: {
@@ -31,6 +44,9 @@ export default {
         DashboardNavbar,
         CraftingModal,
         EquippedItems,
+        ActionsMenu,
+        MainScreen,
+        ChatBox,
     },
 
     data() {
@@ -78,11 +94,11 @@ export default {
 
 <style>
 .player-info-container {
-    position: relative;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    padding-top: 10px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
 }
 
 .info-and-items {
@@ -106,20 +122,91 @@ export default {
     margin-left: 10px;
 }
 
-.player-info {
-
+.right-section-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.craft-button {
-    display: block;
-    margin: 10px auto;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    text-align: center;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
+.right-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-screen-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-screen {
+    border: 2px solid #000;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.container-fluid {
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+
+@media (max-width: 767px) {
+    .player-info-container, .main-screen-container, .right-section-container {
+        flex: 0 0 auto;
+        max-width: 100%;
+    }
+
+    .player-info-container {
+        width: 20%;
+    }
+
+    .main-screen-container {
+        width: 60%;
+    }
+
+    .right-section-container {
+        width: 20%;
+    }
+}
+
+@media (max-width: 730px) {
+    .player-info-container,
+    .right-section-container,
+    .main-screen-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .right-section-container {
+        order: 1;
+        margin-bottom: 20px;
+    }
+
+    .main-screen-container {
+        order: 2;
+    }
+
+    .main-screen {
+        height: 300px;
+        width: 100%;
+    }
+
+    .player-info-container {
+        order: 3;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 0 20px;
+    }
+
+    .right-section .actions-menu {
+        margin: 0 auto;
+        padding-top: 50px;
+    }
 }
 </style>

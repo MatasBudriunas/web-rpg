@@ -6,12 +6,18 @@
             <div class="modal-content">
                 <div v-if="item && item.details">
                     <div class="item-details">
-                        <div class="stat-line"><span class="stat-name">Type:</span> <span class="stat-value">{{ item.details.type }}</span></div>
-                        <div class="stat-line"><span class="stat-name">Name:</span> <span class="stat-value">{{ item.details.name }}</span></div>
-                        <div class="stat-line"><span class="stat-name">Attack:</span> <span class="stat-value">{{ item.details.attack }}</span></div>
-                        <div class="stat-line"><span class="stat-name">Defence:</span> <span class="stat-value">{{ item.details.defence }}</span></div>
-                        <div class="stat-line"><span class="stat-name">Health:</span> <span class="stat-value">{{ item.details.health }}</span></div>
-                        <div class="stat-line"><span class="stat-name">Speed:</span> <span class="stat-value">{{ item.details.speed }}</span></div>
+                        <div class="stat-line"><span class="stat-name">Type:</span> <span
+                            class="stat-value">{{ item.details.type }}</span></div>
+                        <div class="stat-line"><span class="stat-name">Name:</span> <span
+                            class="stat-value">{{ item.details.name }}</span></div>
+                        <div class="stat-line"><span class="stat-name">Attack:</span> <span
+                            class="stat-value">{{ item.details.attack }}</span></div>
+                        <div class="stat-line"><span class="stat-name">Defence:</span> <span
+                            class="stat-value">{{ item.details.defence }}</span></div>
+                        <div class="stat-line"><span class="stat-name">Health:</span> <span
+                            class="stat-value">{{ item.details.health }}</span></div>
+                        <div class="stat-line"><span class="stat-name">Speed:</span> <span
+                            class="stat-value">{{ item.details.speed }}</span></div>
                     </div>
                 </div>
                 <div v-else class="nothing-equipped">Nothing is equipped.</div>
