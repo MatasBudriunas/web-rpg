@@ -8,6 +8,12 @@ const state = {
         defence: 0,
         health: 0,
         speed: 0,
+        coordinates_x: 0,
+        coordinates_y: 0,
+        map: '',
+        map_id: 0,
+        map_width: 0,
+        map_height: 0,
     },
     items: {
         gloves: null,
@@ -32,6 +38,10 @@ const mutations = {
     },
     ITEM_EQUIPPED(state) {
         state.itemEquipped = !state.itemEquipped;
+    },
+    UPDATE_PLAYER_COORDINATES(state, coordinates) {
+        state.player.coordinates_x = coordinates.x;
+        state.player.coordinates_y = coordinates.y;
     },
 };
 

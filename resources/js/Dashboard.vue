@@ -145,6 +145,8 @@ export default {
     border: 2px solid #000;
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
     margin: 0;
     padding: 0;
 }

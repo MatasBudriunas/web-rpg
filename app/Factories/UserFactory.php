@@ -18,7 +18,10 @@ class UserFactory
             'attack' => UserConstants::DEFAULT_ATTACK,
             'defence' => UserConstants::DEFAULT_DEFENCE,
             'health' => UserConstants::DEFAULT_HEALTH,
-            'speed' => UserConstants::DEFAULT_SPEED
+            'speed' => UserConstants::DEFAULT_SPEED,
+            'map_id' => UserConstants::DEFAULT_MAP,
+            'coordinates_x' => UserConstants::DEFAULT_X_COORDINATE,
+            'coordinates_y' => UserConstants::DEFAULT_Y_COORDINATE
         ]);
     }
 }

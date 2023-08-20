@@ -18,6 +18,12 @@ class PlayerResource extends BaseResource
             'needed_xp' => $this->needed_xp,
             'level' => $this->level,
             'currency' => $this->currency,
+            'coordinates_x' => $this->coordinates_x,
+            'coordinates_y' => $this->coordinates_y,
+            'map_id' => $this->map_id,
+            'map' => $this->map->name,
+            'map_width' => $this->map->width,
+            'map_height' => $this->map->height,
         ];
     }
 }
