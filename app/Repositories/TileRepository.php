@@ -36,4 +36,9 @@ class TileRepository implements RepositoryInterface
     {
         Tile::destroy($id);
     }
+
+    public function findOneByMany(array $data)
+    {
+        return Tile::where($data)->first();
+    }
 }

@@ -48,12 +48,13 @@ export default {
 
         movePlayer(x, y) {
             const data = {
-                coordinate_x: x,
-                coordinate_y: y,
+                coordinates_x: x,
+                coordinates_y: y,
+                map_id: this.player.map_id
             };
 
             axios.post('/api/move', data).then(response => {
-                this.$store.commit('UPDATE_PLAYER_COORDINATES', response.data.data.coordinates);
+                this.$store.commit('UPDATE_PLAYER_COORDINATES', response.data.coordinates);
             }).catch(error => {
                 console.error('An error occurred while moving the player:', error);
             });

@@ -11,9 +11,11 @@ use App\Http\Resources\PlayerResource;
 use App\Repositories\ItemRepository;
 use App\Services\EquipmentService;
 use App\Services\MapService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Symfony\Component\HttpFoundation\Response;
 
 class PlayerController extends Controller
 {
@@ -53,11 +55,18 @@ class PlayerController extends Controller
         return new ItemResource($item);
     }
 
+    /**
+     * @throws Exception
+     */
     public function movePlayer(Request $request): JsonResponse
     {
-        return Response()->json(['Coordinates' => $this->mapService->movePlayer(
+        $newCoordinates = $this->mapService->movePlayer(
             (int) $request->get('coordinates_x'),
-            $request->get('coordinates_y'),
-        )]);
+            (int) $request->get('coordinates_y'),
+            (int) $request->get('map_id'),
+            $request->user()
+        );
+
+        return Response()->json(['coordinates' => $newCoordinates], Response::HTTP_OK);
     }
 }
