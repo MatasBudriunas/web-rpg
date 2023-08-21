@@ -22,7 +22,6 @@ class MapService
      */
     public function movePlayer(int $coordinatesX, int $coordinatesY, int $mapId, User $user): array
     {
-        //TODO validate and update the coordinates on player movement
         $location = $this->tileRepository->findOneByMany([
             'map_id' => $mapId,
             'coordinates_x' => $coordinatesX,
