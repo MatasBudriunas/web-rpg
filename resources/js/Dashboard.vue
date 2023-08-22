@@ -66,6 +66,7 @@ export default {
         try {
             await this.$store.dispatch('fetchPlayer');
             await this.$store.dispatch('fetchItems');
+            await this.$store.dispatch('fetchMap', this.$store.state.player.map_id);
         } catch (error) {
             console.error("An error occurred while fetching player information:", error);
         }

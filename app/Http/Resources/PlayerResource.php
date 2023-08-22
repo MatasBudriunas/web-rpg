@@ -21,9 +21,6 @@ class PlayerResource extends BaseResource
             'coordinates_x' => $this->coordinates_x,
             'coordinates_y' => $this->coordinates_y,
             'map_id' => $this->map_id,
-            'map' => $this->map->name,
-            'map_width' => $this->map->width,
-            'map_height' => $this->map->height,
         ];
     }
 }

@@ -24,4 +24,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/craft-item', 'App\Http\Controllers\API\CraftingController@craft');
     Route::post('/equip-item', 'App\Http\Controllers\API\PlayerController@equipItem');
     Route::post('/move', 'App\Http\Controllers\API\PlayerController@movePlayer');
+    Route::get('/map', 'App\Http\Controllers\API\MapController@getMap');
 });

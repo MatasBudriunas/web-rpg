@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Map;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 class MapRepository implements RepositoryInterface
 {
@@ -35,5 +37,10 @@ class MapRepository implements RepositoryInterface
     public function delete($id): void
     {
         Map::destroy($id);
+    }
+
+    public function findWith(int $id, string $relationName): Model|Collection|Builder|array|null
+    {
+        return Map::with($relationName)->find($id);
     }
 }

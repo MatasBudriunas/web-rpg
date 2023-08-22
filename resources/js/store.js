@@ -10,10 +10,7 @@ const state = {
         speed: 0,
         coordinates_x: 0,
         coordinates_y: 0,
-        map: '',
         map_id: 0,
-        map_width: 0,
-        map_height: 0,
     },
     items: {
         gloves: null,
@@ -21,6 +18,13 @@ const state = {
         boots: null,
         armor: null,
         weapon: null,
+    },
+    map: {
+        id: 0,
+        name: '',
+        width: 0,
+        height: 0,
+        tiles: [],
     },
     equipMessage: '',
 };
@@ -43,6 +47,9 @@ const mutations = {
         state.player.coordinates_x = coordinates.x;
         state.player.coordinates_y = coordinates.y;
     },
+    SET_MAP(state, mapData) {
+        state.map = mapData;
+    },
 };
 
 const actions = {
@@ -56,7 +63,14 @@ const actions = {
             console.error("An error occurred while fetching player information:", error);
         }
     },
-
+    async fetchMap({commit}, mapId) {
+        try {
+            const response = await axios.get('/api/map/', { params: { map_id: mapId } });
+            commit('SET_MAP', response.data);
+        } catch (error) {
+            console.error("An error occurred while fetching map information:", error);
+        }
+    },
     async fetchItems({commit}) {
         try {
             const response = await axios.get('/api/items');

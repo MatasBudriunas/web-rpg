@@ -2,7 +2,7 @@
     <div class="main-screen">
         <div v-for="row in grid" :key="row.y" class="row">
             <div v-for="cell in row.cells" :key="cell.x" class="cell"
-                 :class="{ 'player': isPlayerPosition(cell) }"
+                 :class="{ 'player': isPlayerPosition(cell), 'passable': cell.is_passable }"
                  @click="movePlayer(cell.x, cell.y)"></div>
         </div>
     </div>
@@ -14,19 +14,19 @@ import axios from 'axios';
 
 export default {
     computed: {
-        ...mapState(['player']),
+        ...mapState(['player', 'map']),
 
         mapWidth() {
-            return this.player.map_width;
+            return this.map.width;
         },
 
         mapHeight() {
-            return this.player.map_height;
+            return this.map.height;
         },
 
         grid() {
             return this.createGrid();
-        }
+        },
     },
 
     methods: {
@@ -35,7 +35,8 @@ export default {
             for (let y = 0; y < this.mapHeight; y++) {
                 const row = { y, cells: [] };
                 for (let x = 0; x < this.mapWidth; x++) {
-                    row.cells.push({ x, y });
+                    const tile = this.map.tiles.find(tile => tile.coordinates_x === x && tile.coordinates_y === y);
+                    row.cells.push({ x, y, type: tile.type, is_passable: tile.is_passable });
                 }
                 rows.push(row);
             }
@@ -47,6 +48,11 @@ export default {
         },
 
         movePlayer(x, y) {
+            const tile = this.map.tiles.find(tile => tile.coordinates_x === x && tile.coordinates_y === y);
+            if (!tile.is_passable) {
+                return;
+            }
+
             const data = {
                 coordinates_x: x,
                 coordinates_y: y,
@@ -58,7 +64,7 @@ export default {
             }).catch(error => {
                 console.error('An error occurred while moving the player:', error);
             });
-        },
+        }
     }
 }
 </script>
@@ -89,5 +95,9 @@ export default {
 
 .cell.player {
     background-color: black;
+}
+
+.cell.passable {
+    cursor: pointer;
 }
 </style>

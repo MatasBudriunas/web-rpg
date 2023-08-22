@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 
 class CraftingController
 {
-
     private CraftingService $craftingService;
 
     public function __construct(CraftingService $craftingService)
