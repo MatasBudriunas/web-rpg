@@ -1,9 +1,11 @@
 <template>
-    <div class="main-screen">
-        <div v-for="row in grid" :key="row.y" class="row">
-            <div v-for="cell in row.cells" :key="cell.x" class="cell"
-                 :class="{ 'player': isPlayerPosition(cell), 'passable': cell.is_passable }"
-                 @click="movePlayer(cell.x, cell.y)"></div>
+    <div class="main-screen-wrapper">
+        <div class="main-screen" :style="{ transform: translate }">
+            <div v-for="row in grid" :key="row.y" class="row">
+                <div v-for="cell in row.cells" :key="cell.x" class="cell"
+                     :class="{ 'player': isPlayerPosition(cell), 'passable': cell.is_passable, 'map-transition': cell.special_feature_type === 'map_transition' }"
+                     @click="movePlayer(cell.x, cell.y)"></div>
+            </div>
         </div>
     </div>
 </template>
@@ -14,12 +16,12 @@ import axios from 'axios';
 import {findPath} from "./Utils/path-finding";
 
 export default {
+    data() {
+        return {
+            isPlayerMoving: false,
+        };
+    },
     computed: {
-        data() {
-            return {
-                isPlayerMoving: false,
-            };
-        },
         ...mapState(['player', 'map']),
 
         mapWidth() {
@@ -33,6 +35,12 @@ export default {
         grid() {
             return this.createGrid();
         },
+
+        translate() {
+            const x = (this.mapWidth / 2 - this.player.coordinates_x) * 64;
+            const y = (this.mapHeight / 2 - this.player.coordinates_y) * 64;
+            return `translate(${x}px, ${y}px)`;
+        },
     },
 
     methods: {
@@ -42,7 +50,12 @@ export default {
                 const row = { y, cells: [] };
                 for (let x = 0; x < this.mapWidth; x++) {
                     const tile = this.map.tiles.find(tile => tile.coordinates_x === x && tile.coordinates_y === y);
-                    row.cells.push({ x, y, type: tile.type, is_passable: tile.is_passable });
+                    row.cells.push({
+                        x, y,
+                        type: tile.type,
+                        is_passable: tile.is_passable,
+                        special_feature_type: tile.special_feature_type
+                    });
                 }
                 rows.push(row);
             }
@@ -53,7 +66,6 @@ export default {
         },
         movePlayer(targetX, targetY) {
             if (this.isPlayerMoving) return;
-
             this.isPlayerMoving = true;
 
             const start = { x: this.player.coordinates_x, y: this.player.coordinates_y };
@@ -77,6 +89,7 @@ export default {
                 };
                 moveStep();
             }
+            this.isPlayerMoving = false;
         },
         updatePlayerCoordinates(x, y) {
             const data = {
@@ -111,13 +124,23 @@ export default {
 </script>
 
 <style scoped>
-.main-screen {
+.main-screen-wrapper {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     border: 2px solid #000;
     overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+
+.main-screen {
+    display: flex;
+    flex-direction: column;
 }
 
 .row {
@@ -128,6 +151,7 @@ export default {
 }
 
 .cell {
+    position: relative;
     width: 64px;
     height: 100%;
     border: 1px solid #ccc;
@@ -146,5 +170,14 @@ export default {
 
 .cell.passable {
     cursor: pointer;
+}
+
+.cell.map-transition::before {
+    content: '⬇️';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
 }
 </style>
