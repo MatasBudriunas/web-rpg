@@ -11,9 +11,15 @@
 <script>
 import {mapState} from 'vuex';
 import axios from 'axios';
+import {findPath} from "./Utils/path-finding";
 
 export default {
     computed: {
+        data() {
+            return {
+                isPlayerMoving: false,
+            };
+        },
         ...mapState(['player', 'map']),
 
         mapWidth() {
@@ -42,17 +48,37 @@ export default {
             }
             return rows;
         },
-
         isPlayerPosition(cell) {
             return cell.x === this.player.coordinates_x && cell.y === this.player.coordinates_y;
         },
+        movePlayer(targetX, targetY) {
+            if (this.isPlayerMoving) return;
 
-        movePlayer(x, y) {
-            const tile = this.map.tiles.find(tile => tile.coordinates_x === x && tile.coordinates_y === y);
-            if (!tile.is_passable) {
-                return;
+            this.isPlayerMoving = true;
+
+            const start = { x: this.player.coordinates_x, y: this.player.coordinates_y };
+            const target = { x: targetX, y: targetY };
+            const path = findPath(start, target, this.map);
+
+            if (path) {
+                let index = 0;
+                const moveStep = () => {
+                    const step = path[index];
+                    if (step) {
+                        this.$store.commit('UPDATE_PLAYER_COORDINATES', { x: step.x, y: step.y });
+                        index++;
+                        if (index < path.length) {
+                            setTimeout(moveStep, 300);
+                        } else {
+                            this.updatePlayerCoordinates(targetX, targetY);
+                            this.isPlayerMoving = false;
+                        }
+                    }
+                };
+                moveStep();
             }
-
+        },
+        updatePlayerCoordinates(x, y) {
             const data = {
                 coordinates_x: x,
                 coordinates_y: y,
@@ -64,7 +90,22 @@ export default {
             }).catch(error => {
                 console.error('An error occurred while moving the player:', error);
             });
-        }
+        },
+        handleSpecialFeature(cell) {
+            const type = cell.special_feature_type;
+            const data = cell.special_feature_data;
+
+            switch (type) {
+                case 'MAP_TRANSITION':
+                    this.transitionToMap(data);
+                    break;
+                default:
+                    console.warn('Unknown special feature type:', type);
+            }
+        },
+        transitionToMap(data) {
+            // TODO implement transitions between maps
+        },
     }
 }
 </script>
@@ -83,18 +124,24 @@ export default {
     display: flex;
     justify-content: center;
     width: 100%;
-    height: 20px;
+    height: 64px;
 }
 
 .cell {
-    width: 20px;
+    width: 64px;
     height: 100%;
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
 
 .cell.player {
+    width: 64px;
+    height: 64px;
     background-color: black;
+    background-image: url('/images/placeholder.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
 }
 
 .cell.passable {

@@ -7,9 +7,6 @@
 <script>
 export default {
     name: 'app',
-    mounted() {
-        console.log("Component mounted:", this.$options.name);
-    },
 };
 </script>
 

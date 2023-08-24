@@ -50,6 +50,11 @@ const mutations = {
     SET_MAP(state, mapData) {
         state.map = mapData;
     },
+    SET_PLAYER_MAP(state, mapData) {
+        state.player.map_id = mapData.map_id;
+        state.player.coordinates_x = mapData.coordinates_x;
+        state.player.coordinates_y = mapData.coordinates_y;
+    },
 };
 
 const actions = {
